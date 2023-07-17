@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const { Circle, Triangle, Square } = require('./lib/shapes');
 const SVG = require("./lib/svg");
+const { writeFile } = require("fs/promises")
 
 const mainPrompt = () => {
     inquirer
@@ -26,8 +27,25 @@ const mainPrompt = () => {
                 type: "input",
                 message: "What color would you like your shape's text to be?",
             }
-    ]).then((res) => {
-        console.log(res)
+    ]).then(({shape, shapeColor, shapeText, textColor}) => {
+        let shapeSVG;
+        if(shape === "Circle") {
+            shapeSVG = new Circle()
+        } else if(shape === "Triangle") {
+            shapeSVG = new Triangle()
+        } else if(shape === "Square") {
+            shapeSVG = new Square()
+        }
+        shapeSVG.setColor(shapeColor)
+        const svg = new SVG();
+        svg.setShapeValue(shapeSVG)
+        svg.setTextValue(shapeText, textColor)
+        return writeFile("logo.svg", svg.render())
+    }).then(() => {
+        console.log("Generated logo.svg")
+    }).catch((err) => {
+        console.log(err)
+        console.log("Something when wrong")
     })
 }
 
