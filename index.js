@@ -20,7 +20,7 @@ const mainPrompt = () => {
             {
                 name: "shapeText",
                 type: "input",
-                message: "What text would you like inside your shape? (0-3)",
+                message: "What text would you like inside your shape? (0-3 characters)",
             },
             {
                 name: "textColor",
@@ -45,7 +45,7 @@ const mainPrompt = () => {
         console.log("Generated logo.svg")
     }).catch((err) => {
         console.log(err)
-        console.log("Something when wrong")
+        console.log("Something went wrong")
     })
 }
 
